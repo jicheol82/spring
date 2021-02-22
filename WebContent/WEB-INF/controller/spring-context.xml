@@ -8,7 +8,14 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context-4.3.xsd"
 	>
-
+	<!-- 다운로드 비즈니스 로직처리해 주는 클래스 bean 객체 만들기 -->
+	<bean id="fileDown" class="test.spring.model.DownloadView"/>
+	
+	<!-- 다운로드를 위해 viewresolver의 우선순위를 최우선을 준다 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/>
+	</bean>
+	
 	<!-- HelloCotroller hello = new test.spring.bean.HelloController()  -->
 	<!-- 스프링에 필요한 객체생성이 필요하면 무조건 bean태그로 생성 
 	<bean id="hello" class="test.spring.bean.HelloController"/> -->
@@ -38,7 +45,7 @@
 		<property name="name" value="hello"/>
 		<property name="reg" ref="day"/> 
 	</bean>-->
-
+	<!--  -->
 	<bean id="testBean2" class="test.spring.model.TestBean">
 		<constructor-arg value="testNum"/>
 		<constructor-arg ref="day"/>
@@ -65,5 +72,17 @@
 	</bean>
 	-->
 	
+	<!-- viewresolve setting -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
+		<property name="order" value="1"/><!-- 이 viewresolver는 항상 후순위 -->
+	</bean>
+	
+	<!-- 파일업로드 세팅 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="-1"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
 
 </beans>

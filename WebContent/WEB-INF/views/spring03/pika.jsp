@@ -7,10 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="pro2.do" method="post">
-		id : <input type="text" name="id"/><br/>
-		pw : <input type="password" name="pw"/><br/>
-		<input type="submit" value="전송"/>
-	</form>
+	<h2>pika page</h2>
+	<h3>name=>${name}</h3>
+	<button onclick="location='/spring/download.do'">다운로드</button>
 </body>
 </html>

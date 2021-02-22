@@ -9,11 +9,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import test.spring.model.TestBean;
 import test.spring.model.TestDTO;
+import test.spring.model.TestTvDTO;
 
 @Controller
 public class HelloController2 {
@@ -92,4 +97,71 @@ public class HelloController2 {
 		return mv;
 	}
 	
+	@RequestMapping("hello3.do")
+	public String hello3(@RequestParam("test") String tester) {
+		System.out.println(tester);
+		return "/WEB-INF/views/spring01/hello.jsp";
+	}
+	/*
+	// 모든  view page에 결과를 돌려줘
+	@ModelAttribute("tv2")
+	public TestTvDTO getTv(String col) {
+		System.out.println("getTv 호출!!");
+		// 원래는 context.xml에?
+		TestTvDTO tv = new TestTvDTO();
+		tv.setCh(10);
+		tv.setCol(col);
+		tv.setPower(true);
+		return tv;
+	}
+	
+	@RequestMapping("hello4.do")
+	public String hello4() {
+		System.out.println("hello4요청");
+		return "/WEB-INF/views/spring03/hellotv.jsp";
+	}
+	*/
+	@RequestMapping("form2.do")
+	public String sendMsg() {
+		return "WEB-INF/views/spring02/form.jsp";
+	}
+	
+	@RequestMapping("pro2.do")
+	public String viewMsg(@ModelAttribute("dto") TestDTO dto) {
+		// 매개변수에 Model 클래스 만들어 model.addAttribute로 전에는 사용했지만
+		// @ModelAttribute를 이용하면 바로 view로 보내짐
+		System.out.println(dto.getId());
+		System.out.println(dto.getPw());
+		return "/WEB-INF/views/spring02/pro.jsp";
+	}
+	
+	@RequestMapping("hello5.do")
+	@ResponseBody
+	public String hello5() {
+		// 비즈니스로직 처리를 하고 그 결과를 받고 싶을때?
+		// 페이지를 응답이 아니라 data를 쓴다
+		// 현재는 json을 쓴다
+		return "eldksfhl";
+	}
+	
+	//@RequestMapping의 옵션들
+	// value=주소, method=전송방식, params=파라미터
+	// params는 꼭 필요한 파라미터로 반드시 넘어와야 한다. 안쓰면 404
+	// {} 중괄호를 사용하여 배열사용이 가능 (value와 params에)
+	@RequestMapping(value="hello6.do", params= {"id=admin","pw","!age"}, method=RequestMethod.GET)
+	public String hello6(String id, String pw) {//params와 동일하게 매개변수 추가 하지 않아도 되긴함
+		System.out.println(id);
+		return "/WEB-INF/views/spring01/hello.jsp";
+	}
+	
+	@RequestMapping("hello8.do")
+	// required는 기본은 true
+	public String hello8(
+			@RequestParam(value="id", required=true) String msg,
+			@RequestParam(value="pw", required=true) String pw,
+			@RequestParam(value="auto", required=false, defaultValue="0") String auto
+			) {
+		System.out.println(msg);
+		return "/WEB-INF/views/spring01/hello.jsp";
+	}
 }
