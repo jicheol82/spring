@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이제는 쿼리문은 이 mapper라는 곳에 작성을 한다 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test"><!-- namespace는 필수. 내부 쿼리 태그 호출시 namespace속성값.뭐리태그id값 형식으로 호출 -->
+	<!-- 이 안에 sql 쿼리문을 태그로 작성한다 -->
+	<select id="userCount" resultType="int">
+		select count(*) from test
+	</select>
+	<select id="maxAge" resultType="int">
+		select max(age) from test
+	</select>
+	<!-- resultType은 클래스의 경로를 쓰나 mybatis-config.xml에 alias설정을 하면 별칭으로 사용 가능 -->
+	<select id="selectAll" resultType="testMybatisDTO">
+		select * from test
+	</select>
+	<select id="getUser" parameterType='string' resultType="testMybatisDTO">
+		select * from test where id =#{value}
+	</select>
+	<select id="getReg" parameterType="string" resultType="java.sql.Timestamp">
+		select reg from test where id = #{value}
+	</select>
+	<!-- select 태그로 해도 된다/ #{dto.id}가 아니라 #{변수명}-->
+	<insert id="insertUser" parameterType="testMybatisDTO" >
+		insert into test (id, pw, age) values (#{id},#{pw},#{age})
+	</insert>
+	<!--  
+	<update id="updateUser" parameterType="testMybatisDTO">
+		update test set pw=#{pw}, age=#{age} where id=#{id}
+	</update>
+	-->
+	<!-- hashma 타입의 파라미터일 경우 #{키값} -->
+	<update id="updateUser" parameterType="hashmap">
+		update test set pw=#{mapPw}, age=#{mapAge} where id=#{mapId}
+	</update>
+	
+	<delete id="deleteUser" parameterType="string">
+		delete from test where id=#{value}
+	</delete>
+</mapper>

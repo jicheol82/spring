@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- 여기는 mybatis관련 설정파일 -->
+<configuration>
+	<!--  순서대로 쓰지 않으면 에러 -->
+	<!-- 별칭 alias 설정-->
+	<typeAliases>
+		<typeAlias type="test.spring.model.TestMybatisDTO" alias="testMybatisDTO" />
+	</typeAliases>
+	
+	<!-- mapper 파일 위치 세팅 -->
+	<mappers>
+		<mapper resource="/sql/testSQL.xml"/>
+	</mappers>
+	
+</configuration>

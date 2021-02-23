@@ -33,15 +33,15 @@ public class HelloController3 {
 		MultipartFile mf = null;
 		try {
 			// 일반 데이터 -> 일반 매개변수로 받아서 이상없는지 확인
-			System.out.println("writer : " + writer);
+			// System.out.println("writer : " + writer);
 			
 			// 파일정보 담기
 			mf = request.getFile("img");
-			System.out.println(mf.getSize());
+			// System.out.println(mf.getSize());
 			
 			// 서버상의 폴더인 save 폴더에 저장
 			String path = request.getRealPath("save");
-			System.out.println("path : "+path);
+			// System.out.println("path : "+path);
 			/*
 			String imgPath = path + "\\" + mf.getOriginalFilename();
 			System.out.println("imgPath : "+imgPath);
@@ -53,15 +53,15 @@ public class HelloController3 {
 			*/
 			//  파일명 중복처리 저장
 			String orgName = mf.getOriginalFilename();
-			System.out.println("orgName : "+orgName);
+			// System.out.println("orgName : "+orgName);
 			// 파일명 확장자 나누기
 			String imgName = orgName.substring(0,orgName.lastIndexOf('.'));
-			System.out.println("imgName :"+imgName);
+			// System.out.println("imgName :"+imgName);
 			String ext = orgName.substring(orgName.lastIndexOf('.'));
-			System.out.println("ext :"+ext);
+			// System.out.println("ext :"+ext);
 			long date = System.currentTimeMillis();
 			String newName = imgName + date + ext;
-			System.out.println("newName : "+newName);
+			// System.out.println("newName : "+newName);
 			String imgPath = path + "\\" + newName;
 			File copyFile = new File(imgPath);
 			mf.transferTo(copyFile);
