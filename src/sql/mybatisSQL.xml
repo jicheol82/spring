@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 동적 SQL -->
+<mapper namespace="myba">
+	<select id="selectIf" parameterType="string" resultType="int">
+		select count(*) from test
+		<if test="value != null">
+			where id=#{value}
+		</if>
+	</select>
+	<!-- 로그인 체크 가능 -->
+	<select id="selectIf2" parameterType="testMybatisDTO" resultType="int">
+		select count(*) from test
+		<if test="id != null">
+			where id=#{id}		
+		</if>
+		<if test="pw != null">
+			and pw=#{pw}
+		</if>
+	</select>
+	<!-- 위 경우의 보완 -->
+	<select id="selectIf3" parameterType="testMybatisDTO" resultType="int">
+		select count(*) from test where id=#{id}
+		<if test="pw != null">
+			and pw=#{pw}
+		</if>
+	</select>
+	<select id="choose" parameterType="testMybatisDTO" resultType="int">
+		select count(*) form test where id=#{id}
+		<choose>
+			<when test="pw != null">
+				and pw=#{pw}
+			</when>
+			<otherwise>
+				and age=#{age}
+			</otherwise>
+		</choose>
+	</select>
+	<!-- trim을 이용한 방안 -->
+	<select id="selectTrim" parameterType="testMybatisDTO" resultType="int">
+		select count(*) from test
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="id != null">
+				id=#{id}
+			</if>
+			<if test="pw != null">
+				and pw=#{pw}
+			</if>
+		</trim>
+	</select>
+	<!-- 이건 내가 쓴것 -->
+	<update id="updateTest" parameterType="testMybatisDTO">
+		update test 
+		<!-- 선생은 suffixOverrides="" 와 pw=#{pw}, 이런식으로 했음-->
+		<trim prefix="set" prefixOverrides="," >
+			<if test="pw != null">
+				pw=#{pw}	
+			</if>
+			<if test="pw != null">
+				, age=#{age}
+			</if>
+		</trim>
+		where id=#{id}
+	</update>
+	<!-- forEach문 사용 -->
+	<select id="selectFor" parameterType="list" resultType="int">
+		select count(*) from test where pw in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	<!-- like구문 사용시 
+		select * from test where id like '%SDG%'
+	-->
+	<select id="selectLike" parameterType="hashmap" resultType="int">
+		select count(*) from test where ${column} like '%'||#{keyword}||'%'
+	</select>
+
+	<update id="updateKey" parameterType="testMybatisDTO">
+		<selectKey keyProperty="age" resultType="int" order="BEFORE"><!-- keyproperty에는  아래 쿼리문에서 가져온 값을 넣을 변수명을 선언 -->
+			select count(*) from test
+		</selectKey>
+		update test set pw=#{pw}, age=#{age} where id=#{id}
+	</update>	
+	
+	<insert id="insertKey" parameterType="testMybatisDTO">
+		insert into test values (board_seq.nextVal, #{pw}, #{age}, sysdate)
+		<!-- selectkey는 시퀀스 값 가져올때 주로 사용 -->
+		<selectKey keyProperty="id" resultType="string" order="AFTER">
+		<!-- before로 하고 이 쿼리를 먼저하면 board_seq.nextval대신 id로 가능 -->
+			select board_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	
+</mapper>
