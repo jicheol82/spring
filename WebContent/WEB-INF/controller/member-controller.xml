@@ -11,16 +11,17 @@
 	<!-- 회원가입 관련 설정 파일 -->
 	<!-- db관련 설정은 web.xml에서 spring-contex.xml을 불렀기 때문에 -->
 	
-	<!-- DAO 객체생성(bean생성) -->
-	<bean id="memberDAO" class="member.model.dao.MemberDAOImpl">
+	<!-- DAO 객체생성(bean생성) 
+	<bean id="memberDAO" class="member.model.dao.MemberDAOImpl"/>-->
 	<!-- DAOimpl에서 @Autowired 사용하지 않은 경우 property태그를 이용하여 sqlSession변수에 값을 주입한다
 		<property name="sqlSession" ref="sqlSession" />--><!-- property가 setMethod임 -->
-	</bean>
-	<!-- Service 객체 생성 -->
-	<bean id="memberService" class="member.service.bean.MemberServiceImpl"/>
+
+	<!-- Service 객체 생성 
+	<bean id="memberService" class="member.service.bean.MemberServiceImpl"/>-->
 	
-	<!-- 해당 패키지내에 컨트롤러 어노테이션이 붙은 클래스를 bean으로 생성-->
-	<context:component-scan base-package="member.controller.bean" />
+	<!-- 해당 패키지내에 어노테이션이 붙은 클래스를 bean으로 생성
+	@Component를 구체화 한 것이 -> @Controller, @Service, @Repository(DAO)-->
+	<context:component-scan base-package="member" />
 
 
 

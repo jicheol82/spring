@@ -6,4 +6,27 @@
 	<insert id="insertMember" parameterType="memberDTO">
 		insert into springMember values(#{id},#{pw},#{name},#{age},#{email},sysdate)
 	</insert>
+	<select id="idPwCheck" parameterType="memberDTO" resultType="int">
+		select count(*) from springMember where id=#{id} and pw=#{pw}
+	</select>
+	<select id="selectMember" parameterType="string" resultType="memberDTO">
+		select * from springMember where id=#{id}
+	</select>
+	<update id="updateMember" parameterType="memberDTO">
+		<!-- 동적 sql -->
+		update springMember
+		<trim prefix="set" suffixOverrides=",">
+			<if test="pw != null">pw=#{pw},</if>
+			<!-- dto에 age의 값을 int(기본형)으로 하면 아래 null대신 0을 써야함 -->
+			<if test="age != null">age=#{age},</if>
+			<if test="email != null">email=#{email}</if>
+		</trim>
+		where id=#{id}
+	</update>
+	<delete id="deleteMember" parameterType="string">
+		delete from springMember where id=#{id}
+	</delete>
+	<select id="idAvail" parameterType="string" resultType="int">
+		select count(id) from springMember where id=#{id}
+	</select>
 </mapper>

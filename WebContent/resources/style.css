@@ -3,7 +3,7 @@ BODY {
 	background-color: #E7F0EC;
 }
 TABLE {
-	width: 600px; margin: auto; text-align: center; border: 1px solid #77878F; border-collapse: collapse; background-color: #AAB9BD;
+	width: auto; margin: auto; text-align: center; border: 1px solid #77878F; border-collapse: collapse; background-color: #AAB9BD;
 }
 TR {
 	FONT-SIZE: 9pt; COLOR: #fff; LINE-HEIGHT: 160%; FONT-FAMILY: 맑은 고딕,verdana,tahoma; border: 1px solid #77878F; padding: 5px;

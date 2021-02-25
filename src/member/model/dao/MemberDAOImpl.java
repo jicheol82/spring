@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import member.model.dto.MemberDTO;
 
+@Repository
 public class MemberDAOImpl implements MemberDAO{
 	//sqlSession 주입받아 아래 메서드에서 sqlSession.se~사용
 	@Autowired
@@ -28,8 +30,9 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public int idPwCheck(MemberDTO dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = sqlSession.selectOne("member.idPwCheck", dto);
+		System.out.println("dao result : "+result);
+		return result;
 	}
 
 	@Override
@@ -40,26 +43,26 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public MemberDTO selectMember(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		MemberDTO member = sqlSession.selectOne("member.selectMember", id);
+		return member;
 	}
 
 	@Override
 	public void updateMember(MemberDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+		sqlSession.update("member.updateMember", dto);
 		
 	}
 
 	@Override
 	public void deleteMember(String id) throws Exception {
 		// TODO Auto-generated method stub
-		
+		sqlSession.delete("member.deleteMember", id);
 	}
 
 	@Override
 	public int idAvailCheck(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int check = sqlSession.selectOne("member.idAvail", id);
+		return check;
 	}
 	
 }
