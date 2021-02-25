@@ -14,6 +14,7 @@
 	<typeAliases>
 		<typeAlias type="test.spring.model.TestMybatisDTO" alias="testMybatisDTO" />
 		<typeAlias type="member.model.dto.MemberDTO" alias="memberDTO" />
+		<typeAlias type="board.model.dto.BoardDTO" alias="boardDTO" />
 	</typeAliases>
 	
 	<!-- mapper 파일 위치 세팅 -->
@@ -21,6 +22,7 @@
 		<mapper resource="/sql/testSQL.xml"/>
 		<mapper resource="/sql/mybatisSQL.xml"/>
 		<mapper resource="/sql/memberSQL.xml"/>
+		<mapper resource="/sql/boardSQL.xml"/>
 	</mappers>
 	
 </configuration>
