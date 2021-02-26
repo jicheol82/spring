@@ -13,44 +13,34 @@ import board.model.dto.BoardDTO;
 public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardDAO boardDAO = null;
-
+	
 	@Override
 	public void insertArticle(BoardDTO dto) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
 	@Override
-	public int getArticleCount() throws SQLException {
-		int result = boardDAO.getArticleCount();
+	public int getArticleCount(String sel, String search) throws SQLException {
+		int result = boardDAO.getArticleCount(sel, search);
 		return result;
 	}
 	
 	@Override
-	public int getStartRow(int pageNum) {
-		int result = (pageNum-1) * pageSize + 1;
-		return result;
-	}
-	
-	@Override
-	public int getEndRow(int pageNum) throws SQLException{
-		int result = (pageNum * pageSize)>getArticleCount()?getArticleCount():(pageNum * pageSize);
-		return result;
-	}
-
-	@Override
-	public List getArticles(int pageNum) throws SQLException {
-		//if (pageNum==0) pageNum=1;
-		int start =getStartRow(pageNum);
-		int end = getEndRow(pageNum);
-		List list = boardDAO.getArticles(start, end);
+	public List getArticles(int pageNum, String sel, String search) throws SQLException {
+		int articleCount = boardDAO.getArticleCount(sel, search);
+		int start = (pageNum-1) * pageSize + 1;
+		int end = (pageNum * pageSize)>articleCount?articleCount:(pageNum * pageSize);
+		List list = boardDAO.getArticles(start, end, sel, search);
+		list.add(start);
 		return list;
 	}
 
 	@Override
 	public BoardDTO getArticle(int num) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		BoardDTO article = boardDAO.getArticle(num);
+		return article;
 	}
 
 	@Override

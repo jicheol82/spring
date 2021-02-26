@@ -26,24 +26,30 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 	@Override
-	public int getArticleCount() throws SQLException {
-		int result = sqlSession.selectOne("board.getArticleCount");
+	public int getArticleCount(String sel, String search) throws SQLException {
+		Map map = new HashMap();
+		map.put("sel", sel);
+		map.put("search", search);
+		int result = sqlSession.selectOne("board.getArticleCount", map);
 		return result;
 	}
-
+	
 	@Override
-	public List getArticles(int start, int end) throws SQLException {
+	public List getArticles(int start, int end, String sel, String search) throws SQLException {
+		// 배열 리스트로도 매개변수 보내줄 수 있으나 map이 가장 많이 쓰이고 부르기 편한 듯
 		Map map = new HashMap();
 		map.put("start", start);
 		map.put("end", end);
+		map.put("sel", sel);
+		map.put("search", search);
 		List list = sqlSession.selectList("board.getArticles", map);
 		return list;
 	}
 
 	@Override
 	public BoardDTO getArticle(int num) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		BoardDTO article = sqlSession.selectOne("board.getArticle", num);
+		return article;
 	}
 
 	@Override

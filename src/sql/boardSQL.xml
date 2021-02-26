@@ -6,12 +6,24 @@
 	<!-- mybatis안에서 array나 list는 map으로 한번 감싼다? -->
 	 
 	<select id="getArticles" parameterType="hashmap" resultType="boardDTO">
+		SELECT * FROM (SELECT rownum r, A.* FROM (SELECT * FROM board 
+		<if test="(sel != null and search != null) ">
+			where ${sel} like '%'||#{search}||'%' 
+		</if>
 		<![CDATA[
-		SELECT * FROM (SELECT rownum r, A.* FROM (SELECT * FROM board ORDER by ref desc, re_step asc)A) WHERE #{end}>=r AND r>=#{start} 
+		ORDER by ref desc, re_step asc)A) WHERE #{end}>=r AND r>=#{start} 
 		]]>
 	</select>
-	<select id="getArticleCount" resultType="int">
-		select count(*) from board
+	
+	<select id="getArticleCount" parameterType="hashmap" resultType="int">
+		select count(*) from board 
+		<!-- 컬럼명에는 ''에 없어야 하므로 ${}을 사용한다 -->
+		<if test="(sel != null and search != null)">
+			where ${sel} like '%'||#{search}||'%'
+		</if>
 	</select>
 
+	<select id="getArticle" resultType="boardDTO">
+		select * from board where num=#{num}
+	</select>
 </mapper>

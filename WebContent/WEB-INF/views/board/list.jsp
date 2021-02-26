@@ -52,7 +52,7 @@
 						<img src="/spring/resources/img/tabImg.PNG" width="${wid}"/>
 						<img src="/spring/resources/img/replyImg.png" width="10"/>
 					</c:if>
-					<a href="/web/board/content.do?num=${article.num }&pageNum=${pageNum}">${article.subject}</a>
+					<a href="/spring/board/content.do?num=${article.num }&pageNum=${pageNum}">${article.subject}</a>
 				</td>
 				<td><a href="mailto:${article.email}">${article.writer}</a></td>
 				<td>${article.reg}</td>
@@ -64,7 +64,6 @@
 		<%-- 페이지 번호 뷰어--%>
 		<div align="center">
 			<h4> 현재 페이지 : ${pageNum}</h4>
-			
 			<fmt:parseNumber var="res" value="${count / pageSize }" integerOnly="true" />
 			<c:set value="${res + (count % pageSize == 0 ? 0 : 1) }" var="pageCount" />
 			<fmt:parseNumber var="result" value="${(currPage -1)/pageBlock }" integerOnly="true" />
@@ -74,23 +73,31 @@
 				<c:set var="endPage" value="${pageCount }" />
 			</c:if>
 		<!--  앞으로 가는 기호(11~20 보고있을때 1~10으로 이동하는 버튼) -->
-			<c:if test="${startPage > pageBlock }">
-				<a href="/spring/board/list.do?pageNum=${startPage-pageBlock}" class="pageNums"> &lt; </a>
-			</c:if>			
-			<c:if test="${sel != null && search != null }">
+				
+			<c:if test="${param.sel != null && param.search != null }">
+				<c:if test="${startPage > pageBlock }">
+					<a href="/spring/board/list.do?pageNum=${startPage-pageBlock}&sel=${param.sel}&search=${param.search}" class="pageNums"> &lt; </a>
+				</c:if>		
 				<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-					<a href="/spring/board/list.do?pageNum=${i}&sel=${sel}&search=${search}" class="pageNums"> &nbsp; [&nbsp; ${i} &nbsp;] </a>
+					<a href="/spring/board/list.do?pageNum=${i}&sel=${param.sel}&search=${param.search}" class="pageNums"> &nbsp; [&nbsp; ${i} &nbsp;] </a>
 				</c:forEach>
+				<c:if test="${endPage < pageCount}">
+					<a href="/spring/board/list.do?pageNum=${startPage+pageBlock}&sel=${param.sel}&search=${param.search}" class="pageNums" > &gt; </a>
+				</c:if>		
 			</c:if>
-			<c:if test="${sel == null && search == null }">
+			<c:if test="${param.sel == null && param.search == null }">
+				<c:if test="${startPage > pageBlock }">
+					<a href="/spring/board/list.do?pageNum=${startPage-pageBlock}" class="pageNums"> &lt; </a>
+				</c:if>		
 				<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 					<a href="/spring/board/list.do?pageNum=${i}" class="pageNums" > [&nbsp; ${i} &nbsp;] </a>
 				</c:forEach>
+				<c:if test="${endPage < pageCount}">
+					<a href="/spring/board/list.do?pageNum=${startPage+pageBlock}" class="pageNums" > &gt; </a>
+				</c:if>	
 			</c:if>
 			<!--   // 뒤로 가는 기호(1~10 보고있을때 11~20으로 이동하는 버튼) -->
-			<c:if test="${endPage < pageCount}">
-				<a href="/spring/board/list.do?pageNum=${startPage+pageBlock}" class="pageNums" > &gt; </a>
-			</c:if>		
+			
 			<br /><br />	
 			<%-- 작성자/내용 검색 --%>	
 			<form action="/spring/board/list.do">
