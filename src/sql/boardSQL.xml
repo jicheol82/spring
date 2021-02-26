@@ -5,8 +5,7 @@
 <mapper namespace="board">
 	<!-- mybatis안에서 array나 list는 map으로 한번 감싼다? -->
 	 
-	<select id="getArticles" parameterType="java.util.List" resultType="boardDTO">
-		
+	<select id="getArticles" parameterType="hashmap" resultType="boardDTO">
 		<![CDATA[
 		SELECT * FROM (SELECT rownum r, A.* FROM (SELECT * FROM board ORDER by ref desc, re_step asc)A) WHERE #{end}>=r AND r>=#{start} 
 		]]>

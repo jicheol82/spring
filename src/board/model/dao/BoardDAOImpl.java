@@ -2,8 +2,11 @@ package board.model.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,16 +27,16 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int getArticleCount() throws SQLException {
-		System.out.println("getArticleCount dao에 옴");
 		int result = sqlSession.selectOne("board.getArticleCount");
-		System.out.println("쿼리수행함");
 		return result;
 	}
 
 	@Override
-	public List getArticles(@RequestParam int start, @RequestParam int end) throws SQLException {
-		List list = sqlSession.selectList("board.getArticles");
-		System.out.println("list 사이즈 : "+list.size());
+	public List getArticles(int start, int end) throws SQLException {
+		Map map = new HashMap();
+		map.put("start", start);
+		map.put("end", end);
+		List list = sqlSession.selectList("board.getArticles", map);
 		return list;
 	}
 

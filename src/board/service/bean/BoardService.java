@@ -6,6 +6,8 @@ import java.util.List;
 import board.model.dto.BoardDTO;
 
 public interface BoardService {
+	static int pageSize = 5;
+	static int pageBlock = 5;
 	// 게시글 저장
 	public void insertArticle(BoardDTO dto) throws SQLException;
 	// 전체 글 개수 검색

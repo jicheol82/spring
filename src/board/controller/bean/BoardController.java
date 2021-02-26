@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import board.service.bean.BoardService;
+import board.service.bean.BoardServiceImpl;
 
 @Controller
 @RequestMapping("/board/")
@@ -20,17 +21,24 @@ public class BoardController {
 		if(pageNum==null) {
 			pageNum=1;
 		}
-		System.out.println("pageNum: "+pageNum);
 		int count = boardService.getArticleCount();
 		model.addAttribute("count", count);
-		System.out.println("count: "+count);
-		int number = boardService.getEndRow(pageNum);
+		int number = boardService.getStartRow(pageNum);
 		model.addAttribute("number", number);
-		System.out.println("number: "+number);
 		List articlelist = boardService.getArticles(pageNum);
-		model.addAttribute("articlelist", articlelist);
-		System.out.println("컨트롤러의 list "+articlelist.size());
-		//model.addAttribute("pageNum", pageNum);
+		model.addAttribute("articleList", articlelist);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("pageSize", BoardService.pageSize);
+		model.addAttribute("pageBlock", BoardService.pageBlock);
+		
+		
+		
+		return "board/list";
+	}
+	
+	@RequestMapping("list.do")
+	public String list(Integer pageNum, String sel, String search, Model model) throws Exception{
+		System.out.println("검색어로");
 		return "board/list";
 	}
 }
