@@ -29,10 +29,10 @@
 		</tr>
 			<tr>
 			<td colspan="2">
-				<button onclick="window.location='/spring/board/modifyForm.do?pageNum=${pageNum}&num=${article.num}'" >수 정</button>
-				<button onclick="window.location='/spring/board/deleteForm.do?pageNum=${pageNum}&num=${article.num}'" >삭 제</button>
-				<button onclick="window.location='/spring/board/writeForm.do?pageNum=${pageNum}&num=${article.num}&ref=${article.ref}&re_level=${article.re_level}&re_step=${article.re_step}'">답 글</button>
-				<button onclick="window.location='/spring/board/list.do?pageNum=${pageNum}'">리스트보기</button>
+				<button onclick="window.location='/spring/board/modifyForm.do?pageNum=${param.pageNum}&num=${article.num}'" >수 정</button>
+				<button onclick="window.location='/spring/board/deleteForm.do?pageNum=${param.pageNum}&num=${article.num}'" >삭 제</button>
+				<button onclick="window.location='/spring/board/writeForm.do?pageNum=${param.pageNum}&num=${article.num}&ref=${article.ref}&re_level=${article.re_level}&re_step=${article.re_step}'">답 글</button>
+				<button onclick="window.location='/spring/board/list.do?pageNum=${param.pageNum}'">리스트보기</button>
 			</td>
 		</tr>
 	</table>

@@ -26,4 +26,34 @@
 	<select id="getArticle" resultType="boardDTO">
 		select * from board where num=#{num}
 	</select>
+	
+	<update id="readCount">
+		update board set readcount=readcount+1 where num=#{num}
+	</update>
+	
+	<insert id="insertArticle" parameterType="boardDTO">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+			select board_seq.nextVal from dual
+		</selectKey>
+		<if test="ref == null">
+		 	insert into board values (#{num}, #{writer}, #{subject}, #{email}, #{content}, #{pw}, sysdate, 0, #{num}, 0, 0)
+		</if>
+		<if test="ref != null">
+			{call
+				declare
+					begin
+						update board set re_step=re_step+1 where ref=#{ref} and re_step>=#{re_step};
+		 				insert into board values (#{num}, #{writer}, #{subject}, #{email}, #{content}, #{pw}, sysdate, 0,#{ref}, #{re_step}, #{re_level});
+		 			end
+		 	}
+		</if>
+	</insert>
+	
+	<update id="updateArticle" parameterType="boardDTO">
+		update board set writer=#{writer}, subject=#{subject}, email=#{email}, content=#{content} where num=#{num} and pw=#{pw} 
+	</update>
+	
+	<delete id="deleteArticle">
+		delete board where num=#{num} and pw=#{pw}
+	</delete>
 </mapper>

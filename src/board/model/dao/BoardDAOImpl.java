@@ -21,8 +21,8 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public void insertArticle(BoardDTO dto) throws SQLException {
-		// TODO Auto-generated method stub
 		
+		sqlSession.update("board.insertArticle", dto);
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public BoardDTO getArticle(int num) throws SQLException {
+		sqlSession.update("board.readCount", num);
 		BoardDTO article = sqlSession.selectOne("board.getArticle", num);
 		return article;
 	}
@@ -60,13 +61,17 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int updateArticle(BoardDTO dto) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		// 쿼리문에 따로 resultType 선언 안해도 자동으로 update의 리턴타입은 int이다
+		int result = sqlSession.update("board.updateArticle", dto);
+		return result;
 	}
 
 	@Override
 	public int deleteArticle(int num, String pw) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Map map = new HashMap();
+		map.put("num", num);
+		map.put("pw", pw);
+		int result = sqlSession.delete("board.deleteArticle", map);
+		return result;
 	}
 }

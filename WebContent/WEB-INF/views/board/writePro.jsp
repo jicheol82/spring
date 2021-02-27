@@ -7,8 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-
-<c:redirect url="/board/list.do?pageNum=${pageNum}" />
+<script>
+	alert("글이 등록되었습니다.");
+</script>
+<!-- 주소 확인해보기 -->
+<c:redirect url="/board/list.do?pageNum=${param.pageNum}" />
 
 
 

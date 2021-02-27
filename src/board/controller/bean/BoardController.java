@@ -1,5 +1,6 @@
 package board.controller.bean;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,7 @@ public class BoardController {
 	@RequestMapping("list.do")
 	public String list(Integer pageNum, String sel, String search, Model model) throws Exception{
 		// pageNum para없을때
-		if(pageNum==null) {
-			pageNum=1;
-		}
+		if(pageNum==null) pageNum=1;
 		// 변수 선언
 		int count = 0;
 		List articlelist = boardService.getArticles(pageNum, sel, search);
@@ -46,5 +45,40 @@ public class BoardController {
 		BoardDTO article = boardService.getArticle(num);
 		model.addAttribute("article", article);
 		return "board/content";
+	}
+	
+	@RequestMapping("writeForm.do")
+	public String writeForm() {
+		return "board/writeForm";		
+	}
+	
+	@RequestMapping("writePro.do")
+	public String writePro(BoardDTO dto) throws SQLException {
+		System.out.println("controller에서 ref : "+dto.getRef());
+		boardService.insertArticle(dto);
+		return "board/writePro";		
+	}
+	
+	@RequestMapping("modifyForm.do")
+	public String modifyForm(int num, Model model) throws SQLException {
+		BoardDTO article = boardService.getArticle(num);
+		model.addAttribute("article", article);
+		return "board/modifyForm";
+	}
+	@RequestMapping("modifyPro.do")
+	public String modifyPro(BoardDTO dto, Model model) throws SQLException{
+		int result = boardService.updateArticle(dto);
+		model.addAttribute("result", result);
+		return "board/modifyPro";
+	}
+	@RequestMapping("deleteForm.do")
+	public String deleteForm() throws SQLException{
+		return "board/deleteForm";
+	}
+	@RequestMapping("deletePro.do")
+	public String deletePro(int num, String pw, Model model) throws SQLException{
+		int result = boardService.deleteArticle(num, pw);
+		model.addAttribute("result", result);
+		return "board/deletePro";
 	}
 }

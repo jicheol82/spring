@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 	<title>글 삭제 폼deleteForm</title>
-	<link href="/web/jsp0216/style.css" rel="stylesheet" type="text/css">
+	<link href="/spring/resources/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<br />
 	<h1 align="center"> delete article (글삭제) </h1>
-	<form action="/web/board/deletePro.do?pageNum=${pageNum}" method="post">
+	<form action="/spring/board/deletePro.do?pageNum=${param.pageNum}" method="post">
 		<%-- 글고유번호 숨겨서 보내기 --%>
-		<input type="hidden" name="num" value="${num}"/>
+		<input type="hidden" name="num" value="${param.num}"/>
 		<table>
 			<tr>
 				<td>삭제를 원하시면 비밀번호를 입력하시오</td>
@@ -23,7 +23,7 @@
 			<tr>
 				<td>
 					<input type="submit" value="삭제"/>
-					<input type="button" value="취소" onclick="window.location='/web/board/list.do?pageNum=${pageNum}'">
+					<input type="button" value="취소" onclick="window.location='/spring/board/list.do?pageNum=${param.pageNum}'">
 				</td>
 			</tr>
 		</table>

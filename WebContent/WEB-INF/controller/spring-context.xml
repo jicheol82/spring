@@ -91,6 +91,7 @@
 	-->
 	<!--  DB 데이터 소스 
 			DB 컨넥션 정보를 DataSource 타입으로 적어준다 -->
+		<!-- 오라클에서는 ?allowMultiQueries=true 옵션이 안되고 {call declare쓰는듯 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close"
 		p:driverClassName="oracle.jdbc.driver.OracleDriver"

@@ -4,15 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>글 수정</title>
-	<link href="/web/jsp0216/style.css" rel="stylesheet" type="text/css"/>
+	<link href="/spring/resources/style.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 	<br/>
 	<h1 align="center">Modify Article</h1>
-	<form action="/web/board/modifyPro.do?pageNum=${pageNum}" method="post">
+	<form action="/spring/board/modifyPro.do?pageNum=${param.pageNum}" method="post">
 		<%-- 글 고유번호 숨겨서 보내기 --%>
-		<input type="hidden" name="num" value="${num}"/>
+		<input type="hidden" name="num" value="${param.num}"/>
 		<table>
 			<tr>
 				<td>작성자</td>
@@ -37,7 +37,7 @@
 			<tr>
 				<td colspan="5">
 				<input type="submit" value="수정"/>
-				<input type="button" value="취소" onclick="window.location='/web/board/list.do?pageNum=${pageNum }'"/>
+				<input type="button" value="취소" onclick="window.location='/spring/board/list.do?pageNum=${param.pageNum }'"/>
 				</td>
 			</tr>
 		</table>

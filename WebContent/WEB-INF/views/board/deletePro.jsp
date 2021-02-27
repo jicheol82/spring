@@ -9,10 +9,10 @@
 </head>
 <body>
 
-<c:if test="${res == true }">
-	<c:redirect url="/board/list.do?pageNum=${pageNum }" />
+<c:if test="${result == 1 }">
+	<c:redirect url="/board/list.do?pageNum=${param.pageNum }" />
 </c:if>
-<c:if test="${res != true }">
+<c:if test="${result == 0 }">
 	<script>
 		alert("비밀번호가 맞지 않습니다. 다시 시도해보세요")
 		history.go(-1);

@@ -16,8 +16,13 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public void insertArticle(BoardDTO dto) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		if(dto.getNum()!=null) {
+			int newStep = dto.getRe_step()+1;
+			int newLevel = dto.getRe_level()+1;
+			dto.setRe_step(newStep);
+			dto.setRe_level(newLevel);
+		}
+		boardDAO.insertArticle(dto);
 	}
 
 	
@@ -51,14 +56,14 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int updateArticle(BoardDTO dto) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = boardDAO.updateArticle(dto);
+		return result;
 	}
 
 	@Override
 	public int deleteArticle(int num, String pw) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = boardDAO.deleteArticle(num, pw);
+		return result;
 	}
 
 }
