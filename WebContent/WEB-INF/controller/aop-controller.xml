@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd"
+	>
+	<!-- AopController 스캔 -->
+	<context:component-scan base-package="spring.aop.advice"/>
+	<!-- 관점의 타겟 클래스 -->
+	<bean id="advice" class="spring.aop.advice.Advice"/>
+	<bean id="tv" class="spring.aop.advice.Tv"/>
+	<!-- aop설정 : xml을 이용한 방법
+		expression : execution() 핵심기능의 메서드(매핑메서드)을 범용적으로 필더링 되게 표현식으로 소괄호안에 작성
+		* : 모든 접근지정자, 패키지명 상관없음
+		main* : main으로 시작하는 메서드명
+		(..) : 매개변수 개수 상관없음 
+	 
+	<aop:config>
+		<aop:pointcut expression="execution(* main*(..))" id="pc1"/>
+		<aop:pointcut expression="bean(tv)" id="pc2"/>
+		<aop:aspect ref="advice">
+			<aop:before method="before" pointcut-ref="pc2"/>
+			<aop:after method="after" pointcut-ref="pc2"/>
+			<aop:after-returning method="afterReturning" pointcut-ref="pc2"/>
+			<aop:after-throwing method="afterThrowing" pointcut-ref="pc2"/>
+			<aop:around method="around" pointcut-ref="pc1"/>
+		</aop:aspect>
+	</aop:config>
+	-->
+	
+	<!-- @Aspect 어노테이션으로 설정된 빈 객체를 Aspect로 사용하게 도와주는 태그 -->
+	<aop:aspectj-autoproxy/>
+	<bean id="memberAspect" class="spring.aop.advice.MemberAspect" />
+</beans>

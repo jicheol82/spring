@@ -26,6 +26,7 @@
  				/WEB-INF/controller/spring-context.xml
  				/WEB-INF/controller/member-controller.xml
  				/WEB-INF/controller/board-controller.xml
+ 				/WEB-INF/controller/aop-controller.xml
  			</param-value>
  		</init-param>
  	</servlet>
