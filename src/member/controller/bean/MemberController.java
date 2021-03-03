@@ -1,11 +1,18 @@
 package member.controller.bean;
 
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import member.model.dto.MemberDTO;
 import member.service.bean.MemberService;
@@ -97,5 +104,25 @@ public class MemberController {
 		model.addAttribute("check", check);
 		model.addAttribute("trialId", id);
 		return "member/confirmId";
+	}
+	// ajax 요청 받는 매칭
+	@RequestMapping(value="ajaxIdAvail.do", method=RequestMethod.POST, produces="application/text; charset=utf8")
+	 //<-viewresolver사용하지 말아야 함
+	public @ResponseBody String ajaxIdAvail(String id) throws Exception{
+//	public ResponseEntity<String> ajaxIdAvail(String id) throws Exception{
+		String result = "";
+		// 매개변수로 전달받은 id가 db존재하는지 확인
+		int check = memberService.idCheck(id);
+		if(check==1) {
+			result = "이미 존재하는 id입니다";
+		}else {
+			result = "사용가능한 id입니다";
+		}
+		
+		//result = URLDecoder.decode(result, "UTF-8");
+//		HttpHeaders responseHeaders = new HttpHeaders();
+//		responseHeaders.add("Content-type", "text/html;charset=utf-8");
+		return result;
+//		return new ResponseEntity<String>(result, responseHeaders, HttpStatus.OK);	
 	}
 }

@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<title>회원가입</title>
 	<link href="/spring/resources/style.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		/* 유효성 검사 
 		function check(){
@@ -43,6 +44,22 @@
 			var url = "/spring/member/confirmId.do?id="+inputForm.id.value;
 			open(url, "confirm", "toolbars=no, location=no, status=no, menubar=no, scrollbars=no, resizable=no, width=300, height=300");
 		}
+		// jquery 이용하여 id 삭제
+		$(document).ready(function(){
+			$("#id").change(function(){
+				var idval = $("#id").val();
+				$.ajax({
+					type : "post",
+					url : "/spring/member/ajaxIdAvail.do",
+					dataType : "text",
+					data : {id : idval},
+					success : function(result){
+						console.log(result);
+						$("#idChRes").val(result);
+					}
+				});
+			})
+		})
 	</script>
 </head>
 <c:if test="${sessionScope.memId != null}">
@@ -59,7 +76,11 @@
 		<table>
 			<tr>
 				<td>아이디*</td>
-				<td><input type="text" name="id" /></td>
+				<td><input type="text" name="id" id="id" /></td>
+			</tr>	
+			<tr>
+				<td>아이디 사용 가능 여부</td>
+				<td><input type="text" id="idChRes" disabled/></td>
 			</tr>	
 			<tr>
 				<td></td>
